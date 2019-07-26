@@ -5,6 +5,7 @@
 //  Created by Blake Ledden on 7/22/19.
 //  Copyright © 2019 Blake Ledden. All rights reserved.
 //
+// This project is not in MVC or MVVM format, nor utilizes any APIs
 
 import UIKit
 
@@ -28,6 +29,22 @@ class ViewController: UIViewController {
         currentValue = Int(roundedValue)
         
         startNewRound()
+        
+        let thumbImageNormal = #imageLiteral(resourceName: "SliderThumb-Normal")
+        slider.setThumbImage(thumbImageNormal, for: .normal)
+        
+        let thumbImageHighlighted = #imageLiteral(resourceName: "SliderThumb-Highlighted")
+        slider.setThumbImage(thumbImageHighlighted, for: .highlighted)
+        
+        let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+        
+        let trackLeftImage = #imageLiteral(resourceName: "SliderTrackLeft")
+        let trackLeftResizable = trackLeftImage.resizableImage(withCapInsets: insets)
+        slider.setMinimumTrackImage(trackLeftResizable, for: .normal)
+        
+        let trackRightImage = #imageLiteral(resourceName: "SliderTrackRight")
+        let trackRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
+        slider.setMaximumTrackImage(trackRightResizable, for: .normal)
         
         
     }
@@ -70,13 +87,14 @@ class ViewController: UIViewController {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Awesome!", style: .default, handler: nil)
+        let action = UIAlertAction(title: "Awesome!", style: .default, handler: {
+            action in
+            self.startNewRound()
+        })
         
         alert.addAction(action)
         
         present(alert, animated: true, completion: nil)
-        
-        startNewRound()
         
     }
     
@@ -103,6 +121,14 @@ class ViewController: UIViewController {
         targetLabel.text = String(targetValue)
         scoreLabel.text = String(score)
         roundLabel.text = String(roundCounter)
+        
+    }
+    
+    @IBAction func startOver() {
+        
+        score = 0
+        roundCounter = 1
+        updateLabels()
         
     }
 
